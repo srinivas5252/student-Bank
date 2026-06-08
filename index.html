@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Bank Details Portal</title>
+    <meta name="description"
+        content="Securely submit and manage student bank account details. Features live validation, dark mode, and admin CSV/JSON export.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Blob Elements -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Navigation Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 22V12C2 7.58172 5.58172 4 10 4H14C18.4183 4 22 7.58172 22 12V22" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" />
+                    <path d="M12 4V2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M7 12H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M7 16H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span>EduPay <span class="logo-badge">Portal</span></span>
+            </a>
+            <div class="header-controls">
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle dark/light theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button id="admin-view-btn" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span>Admin Dashboard</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+        <!-- Student Form View -->
+        <section id="form-section" class="content-section active">
+            <div class="section-header">
+                <h1>Secure Bank Details Collection</h1>
+                <p>Please enter your bank information below to facilitate scholarships and direct benefit transfers.
+                    Ensure all fields match your official bank passbook.</p>
+            </div>
+
+            <!-- Form Card Wrapper -->
+            <div class="card glass-card form-card">
+                <!-- Form Progress Tracker -->
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div id="form-progress" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">Form Completion: <span id="progress-percent">0%</span></div>
+                </div>
+
+                <form id="bank-details-form" novalidate>
+                    <!-- Student Name -->
+                    <div class="form-group">
+                        <label for="student-name">Student Full Name</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <input type="text" id="student-name" name="studentName"
+                                placeholder="Enter your full name as in bank" required minlength="3">
+                        </div>
+                        <span class="error-msg" id="name-error">Please enter at least 3 letters (A-Z, space).</span>
+                    </div>
+
+                    <!-- Mobile Number -->
+                    <div class="form-group">
+                        <label for="mobile-number">Mobile Number</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                            <input type="tel" id="mobile-number" name="mobileNumber"
+                                placeholder="10-digit mobile number" required pattern="[0-9]{10}">
+                        </div>
+                        <span class="error-msg" id="mobile-error">Please enter a valid 10-digit mobile number.</span>
+                    </div>
+                    <!-- Admission Number -->
+                    <div class="form-group">
+                        <label for="Admission -number">Admission Number</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                            <input type="tel" id="Admission number" name="Admission Number"
+                                placeholder=" Admission  number" required pattern="[0-9]{10}">
+                        </div>
+                        <span class="error-msg" id="Admission -error">Please enter a valid 10-digit Admission
+                            number.</span>
+                    </div>
+                    <!-- Row for Bank Name & IFSC -->
+                    <div class="form-grid">
+                        <!-- Bank Name -->
+                        <div class="form-group">
+                            <label for="bank-name">Bank Name</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="2" y="10" width="20" height="12" rx="2"></rect>
+                                    <path d="M12 2L2 10H22L12 2Z"></path>
+                                    <path d="M6 14v4M10 14v4M14 14v4M18 14v4"></path>
+                                </svg>
+                                <select id="bank-name" name="bankName" required>
+                                    <option value="" disabled selected>Select your bank</option>
+                                    <option value="State Bank of India">State Bank of India</option>
+                                    <option value="HDFC Bank">HDFC Bank</option>
+                                    <option value="ICICI Bank">ICICI Bank</option>
+                                    <option value="Punjab National Bank">Punjab National Bank</option>
+                                    <option value="Bank of Baroda">Bank of Baroda</option>
+                                    <option value="Axis Bank">Axis Bank</option>
+                                    <option value="Union Bank of India">Union Bank of India</option>
+                                    <option value="Canara Bank">Canara Bank</option>
+                                    <option value="Indian Bank">Indian Bank</option>
+
+
+
+
+
+
+
+
+                                    <option value="other">Other Bank (Specify below)</option>
+                                </select>
+                            </div>
+                            <span class="error-msg" id="bank-error">Please select a bank from the list.</span>
+                        </div>
+
+                        <!-- IFSC Code -->
+                        <div class="form-group">
+                            <label for="ifsc-code">IFSC Code</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <path d="M12 6v12M12 12h6"></path>
+                                </svg>
+                                <input type="text" id="ifsc-code" name="ifscCode" placeholder="e.g., SBIN0001234"
+                                    required pattern="^[A-Z]{4}0[A-Z0-9]{6}$" style="text-transform: uppercase;">
+                            </div>
+                            <span class="error-msg" id="ifsc-error">Invalid IFSC code. Format: 4 letters, '0', 6
+                                digits/letters (e.g. HDFC0001234).</span>
+                        </div>
+                    </div>
+
+                    <!-- Custom Bank Name (hidden initially) -->
+                    <div class="form-group hidden animate-fade-in" id="custom-bank-group">
+                        <label for="custom-bank-name">Specify Bank Name</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <path d="M17 21v-8H7v8M7 3v5h8"></path>
+                            </svg>
+                            <input type="text" id="custom-bank-name" name="customBankName"
+                                placeholder="Enter bank name">
+                        </div>
+                        <span class="error-msg" id="custom-bank-error">Please specify the bank name.</span>
+                    </div>
+
+                    <!-- Account Number & Confirm Account Number -->
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="account-number">Bank Account Number</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                                </svg>
+                                <input type="password" id="account-number" name="accountNumber"
+                                    placeholder="9 to 18 digits" required pattern="[0-9]{9,18}">
+                                <button type="button" class="password-toggle" id="toggle-account-vis"
+                                    aria-label="Toggle account visibility">
+                                    <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                                        </path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                    <svg class="eye-on hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            <span class="error-msg" id="account-error">Please enter a valid account number (9 to 18
+                                digits).</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm-account-number">Confirm Account Number</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                                <input type="text" id="confirm-account-number" name="confirmAccountNumber"
+                                    placeholder="Re-enter account number" required autocomplete="off">
+                            </div>
+                            <span class="error-msg" id="confirm-error">Account numbers do not match.</span>
+                        </div>
+                    </div>
+
+                    <!-- Terms checkbox -->
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms-agree" required>
+                            <span class="custom-checkbox"></span>
+                            <span class="label-text">I declare that all details provided are correct and belong to my
+                                own personal bank account.</span>
+                        </label>
+                        <span class="error-msg" id="terms-error">You must accept this declaration before
+                            submitting.</span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-block">
+                        <span>Submit Bank Details</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Admin View Section -->
+        <section id="admin-section" class="content-section">
+            <div class="section-header dashboard-header">
+                <div>
+                    <button id="back-to-form-btn" class="btn btn-icon-text">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Back to Submission</span>
+                    </button>
+                    <h1>Administrator Dashboard</h1>
+                    <p>Manage and export student bank submissions securely stored in the system database.</p>
+                </div>
+                <div class="admin-actions">
+                    <button id="export-csv-btn" class="btn btn-secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Export CSV</span>
+                    </button>
+                    <button id="export-json-btn" class="btn btn-secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        <span>Export JSON</span>
+                    </button>
+                    <button id="clear-all-btn" class="btn btn-danger">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg>
+                        <span>Clear All</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-grid">
+                <div class="card glass-card stat-card">
+                    <div class="stat-value" id="stat-total-submissions">0</div>
+                    <div class="stat-label">Total Submissions</div>
+                </div>
+                <div class="card glass-card stat-card">
+                    <div class="stat-value" id="stat-unique-banks">0</div>
+                    <div class="stat-label">Distinct Banks</div>
+                </div>
+                <div class="card glass-card stat-card">
+                    <div class="stat-value" id="stat-recent-today">0</div>
+                    <div class="stat-label">Submitted Today</div>
+                </div>
+            </div>
+
+            <!-- Table & Filter Card -->
+            <div class="card glass-card table-card">
+                <div class="table-header-controls">
+                    <div class="search-wrapper">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="admin-search-input"
+                            placeholder="Search by name, mobile, bank, account, or IFSC...">
+                    </div>
+                    <div class="filter-wrapper">
+                        <label for="bank-filter" class="sr-only">Filter by Bank</label>
+                        <select id="bank-filter">
+                            <option value="">All Banks</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table" id="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Mobile Number</th>
+                                <th>Bank Name</th>
+                                <th>Account Number</th>
+                                <th>IFSC Code</th>
+                                <th>Submitted At</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <tr>
+                                <td colspan="7" class="text-center empty-state">No submissions found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Success Modal Overlay -->
+    <div id="success-modal" class="modal-overlay">
+        <div class="modal-content glass-card card animate-scale-up">
+            <div class="modal-header">
+                <div class="success-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h2>Submission Successful!</h2>
+                <p>Your bank details have been safely registered. Please verify the receipt details below.</p>
+            </div>
+
+            <div class="receipt-preview">
+                <div class="receipt-header">
+                    <h3>OFFICIAL SUBMISSION RECEIPT</h3>
+                    <span id="receipt-id" class="receipt-id">ID: SUB-00000</span>
+                </div>
+                <div class="receipt-body">
+                    <div class="receipt-row">
+                        <span class="receipt-label">Student Name:</span>
+                        <span class="receipt-val" id="receipt-name">John Doe</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Mobile Number:</span>
+                        <span class="receipt-val" id="receipt-mobile">+91 9876543210</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Bank Name:</span>
+                        <span class="receipt-val" id="receipt-bank">State Bank of India</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Account Number:</span>
+                        <span class="receipt-val" id="receipt-account">••••••••1234</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">IFSC Code:</span>
+                        <span class="receipt-val" id="receipt-ifsc">SBIN0001234</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Timestamp:</span>
+                        <span class="receipt-val" id="receipt-time">2026-06-05 16:55</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="download-receipt-btn" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download Receipt</span>
+                </button>
+                <button id="close-modal-btn" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Verification Modal (PIN Entry) -->
+    <div id="pin-modal" class="modal-overlay">
+        <div class="modal-content glass-card card pin-card animate-scale-up">
+            <div class="modal-header">
+                <div class="lock-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h2>Security Verification</h2>
+                <p>Enter administrative access PIN to view stored bank information.</p>
+            </div>
+
+            <form id="pin-form" novalidate>
+                <div class="form-group pin-field-group">
+                    <label for="admin-pin" class="sr-only">PIN</label>
+                    <input type="password" id="admin-pin" maxlength="4" placeholder="••••" required autocomplete="off"
+                        inputmode="numeric" pattern="[0-9]{4}">
+                    <span class="error-msg" id="pin-error">Incorrect credentials. Access Denied.</span>
+                </div>
+                <div class="modal-footer pin-footer">
+                    <button type="submit" class="btn btn-primary">Verify & Enter</button>
+                    <button type="button" id="close-pin-modal" class="btn btn-secondary">Cancel</button>
+                </div>
+                <div class="hint-text text-center">Hint: Default pin code is <strong>1234</strong></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 EduPay portal. Secure SSL 256-bit bank details vault. All details are stored and encrypted
+                locally.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
